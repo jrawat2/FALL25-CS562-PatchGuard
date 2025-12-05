@@ -4,6 +4,8 @@ import re
 
 from .static_analysis import StaticAnalyzer
 from .diff_checker import DiffChecker
+from .semgrep_runner import SemgrepRunner
+from .unit_test_validator import UnitTestValidator
 
 
 class PatchValidator:
@@ -17,6 +19,8 @@ class PatchValidator:
     def __init__(self):
         self.static_analyzer = StaticAnalyzer()
         self.diff_checker = DiffChecker()
+        self.semgrep = SemgrepRunner()
+        self.unit_tester = UnitTestValidator()
 
     # -----------------------------------------------------------
     #  AST SYNTAX CHECKER
@@ -46,11 +50,24 @@ class PatchValidator:
         static_result = self.static_analyzer.analyze(generated_patch)
         diff_result = self.diff_checker.compare(original_code, generated_patch)
         syntax_valid = self.syntax_is_valid(generated_patch)
+        semgrep_result = self.semgrep.run(generated_patch)
+
+        # optional: keep empty tests if no tests provided
+        test_code = (
+            "import patched\n"
+            "def test_add():\n"
+            "    assert patched.add(1, 2) == 3\n"
+        )
+
+
+        unit_test_result = self.unit_tester.run_tests(generated_patch, test_code)
 
         overall_valid = (
             static_result["safe"]
             and diff_result["valid"]
             and syntax_valid
+            and semgrep_result["safe"]
+            and unit_test_result["passed"]
         )
 
         return {
@@ -58,6 +75,8 @@ class PatchValidator:
             "static_analysis": static_result,
             "diff_analysis": diff_result,
             "syntax_valid": syntax_valid,
+            "semgrep": semgrep_result,
+            "unit_tests": unit_test_result
         }
 
 
