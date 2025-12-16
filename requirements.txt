@@ -1,2 +1,19 @@
+# Core dependencies
+pandas>=2.0.0
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# LLM and code editing
+aider-chat>=0.40.0
+
+# Security analysis
+bandit>=1.7.5
 semgrep>=1.50.0
-pytest
+
+# Testing
+pytest>=7.4.0
+
+# Dataset handling
+kaggle>=1.6.0
+
+# Note: Ollama must be installed separately from https://ollama.com

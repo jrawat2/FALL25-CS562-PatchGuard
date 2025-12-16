@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "WebSearch",
+      "Bash(python download_dataset.py:*)",
+      "Bash(pip install:*)",
+      "Bash(python create_evaluation_dataset.py:*)",
+      "Bash(python test_setup.py:*)",
+      "Bash(python test_pipeline.py:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

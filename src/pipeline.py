@@ -5,42 +5,52 @@ Layer 1: Prompt detection
 Layer 2: Prompt sanitization
 Layer 3: Patch validation (static + diff)
 
-Current version uses a dummy patch generator (no real LLM call yet),
-so we can test the flow end-to-end.
+Integrates with Aider/Ollama for actual patch generation.
 """
 
 import textwrap
 
 # Imports that work both when run as a module and as a script
 try:
-    from layer1_detection.detector import PromptDetector
-    from layer2_sanitization.sanitizer import PromptSanitizer
-    from layer3_validation.validator import PatchValidator
+    from src.layer1_detection.detector import PromptDetector
+    from src.layer2_sanitization.sanitizer import PromptSanitizer
+    from src.layer3_validation.validator import PatchValidator
 except ImportError:
-    # Fallback if run as: python src/pipeline.py
+    # Fallback if run from src directory
     from layer1_detection.detector import PromptDetector
     from layer2_sanitization.sanitizer import PromptSanitizer
     from layer3_validation.validator import PatchValidator
 
 
 class PatchGuardPipeline:
-    def __init__(self):
+    def __init__(self, patcher=None):
+        """
+        Initialize PatchGuard pipeline.
+
+        Args:
+            patcher: Optional patcher instance (SimplePromptPatcher or AiderBaseline).
+                    If None, uses dummy patch generation for testing.
+        """
         self.detector = PromptDetector()
         self.sanitizer = PromptSanitizer()
         self.validator = PatchValidator()
+        self.patcher = patcher
 
     def generate_patch(self, sanitized_prompt: str, original_code: str) -> str:
         """
-        Dummy patch generator for now.
+        Generate patch using the LLM patcher.
 
-        In the real system, this is where we would call LLM
-        (DeepSeekCoder, CodeLlama, etc.) with the sanitized prompt + original code.
-
-        For now, we simulate a small, safe change to demonstrate the validator.
+        If a patcher was provided, uses it to generate the patch.
+        Otherwise, uses a dummy patch for testing.
         """
-        # Example: add a comment at the top to simulate a tiny patch
-        patched = "# Patched by PatchGuard\n" + original_code
-        return patched
+        if self.patcher is not None:
+            # Use real LLM patcher
+            result = self.patcher.generate_patch(original_code, sanitized_prompt)
+            return result.get("patched_code", original_code)
+        else:
+            # Dummy patch for testing
+            patched = "# Patched by PatchGuard\n" + original_code
+            return patched
 
     def run(self, issue_text: str, original_code: str) -> dict:
         """
