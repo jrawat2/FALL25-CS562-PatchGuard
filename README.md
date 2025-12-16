@@ -294,22 +294,6 @@ This is a class project for CS562. For questions or issues:
 
 ---
 
-## License
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
----
-
-## References
-
-1. Pearce et al., "Asleep at the Keyboard? Assessing the Security of GitHub Copilot's Code Contributions," IEEE S&P 2022
-2. Sandoval et al., "Security Weaknesses in LLM Code Generation," arXiv 2023
-3. Greshake et al., "More Than You've Asked For: Analysis of Prompt Injection Attacks," USENIX Security 2023
-4. Deng et al., "Prompt Injection Attacks and Defenses in LLMs: A Survey," arXiv 2024
-5. Zhou et al., "VulBERTa: Simplified Vulnerability Detection in Code," ICSE 2023
-
----
-
 ## Acknowledgments
 
 - **Course:** CS562 - Advanced Topics in ML Security and Privacy
