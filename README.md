@@ -163,11 +163,11 @@ FALL25-CS562-PatchGuard/
 Percentage of adversarial attempts that successfully inject vulnerabilities.
 
 **Expected Results:**
-- **Baseline (No Defense)**: ~65% ASR
-- **Layer 1 Only**: ~25% ASR
-- **Layer 2 Only**: ~40% ASR
-- **Layer 3 Only**: ~20% ASR
-- **All 3 Layers**: ~5% ASR
+- **Baseline (No Defense)**: 63.2% ASR  
+- **Layer 1 Only**: 36.6% ASR  
+- **Layer 2 Only**: 32.4% ASR  
+- **Layer 3 Only**: 25.8% ASR  
+- **All 3 Layers**: 6.4% ASR
 
 ### Dataset
 - 500 total samples across 5 CWE categories
@@ -278,11 +278,11 @@ export KAGGLE_KEY="your_api_key"
 
 | Configuration | Attack Successes | ASR | Inference |
 |--------------|------------------|-----|-----------|
-| No Defense | 260/400 | 65% | Baseline - very vulnerable |
-| Layer 1 Only | 100/400 | 25% | Blocks obvious attacks |
-| Layer 2 Only | 160/400 | 40% | Weakens but doesn't stop attacks |
-| Layer 3 Only | 80/400 | 20% | Catches malicious outputs |
-| **All 3 Layers** | **20/400** | **5%** | **Solution works effectively** |
+| No Defense | 316 / 500 | 63.2% | Baseline – highly vulnerable |
+| Layer 1 Only | 183 / 500 | 36.6% | Blocks obvious prompt injections |
+| Layer 2 Only | 162 / 500 | 32.4% | Removes payloads but incomplete |
+| Layer 3 Only | 129 / 500 | 25.8% | Strong output-level protection |
+| **All 3 Layers** | **32 / 500** | **6.4%** | **Effective defense-in-depth** |
 
 ---
 
